@@ -19,23 +19,42 @@ struct ContentView: View {
     
     var body: some View {
         ZStack{
-            Color.blue
+            LinearGradient(colors: [.blue, .black], startPoint: .top, endPoint: .bottom)
+           
                 .ignoresSafeArea()
-            VStack(spacing: 30) {
-                VStack{
-                    Text("Guess the flag of")
-                        .foregroundStyle(.white)
-                    Text(countries[correctAnswer])
-                        .foregroundStyle(.white)
-                }
-            ForEach(0..<3)  {  number in
-                Button {
-                    flagTapped(number)
-                } label: {
-                    Image(countries[number])
-                }
-            }  }
-            
+            VStack{
+                Spacer()
+                Text("Guess the Flag")
+                    .font(.largeTitle.weight(.bold))
+                    .foregroundStyle(.white)
+                VStack(spacing: 30) {
+                    VStack{
+                        Text("Tap the flag of")
+                            .foregroundStyle(.secondary)
+                            .font(.subheadline.weight(.heavy))
+                        Text(countries[correctAnswer])
+                           
+                            .font(.largeTitle.weight(.semibold))
+                    }
+                    ForEach(0..<3)  {  number in
+                        Button {
+                            flagTapped(number)
+                        } label: {
+                            Image(countries[number])
+                                .clipShape(.rect(cornerRadius: 5))
+                                .shadow(radius: 5)
+                        }
+                    }  }
+                
+                .frame(maxWidth: .infinity)
+                .padding(.vertical, 30)
+                .background(.regularMaterial)
+                .clipShape(.rect(cornerRadius: 20))
+                Spacer()
+                Text("Score: \(yourScore)")
+                    .foregroundStyle(.white)
+                    .font(.title.bold())
+            }
         }
         .alert(scoreTitle, isPresented: $showingScore) {
             Button("Continue", action: askQuestion)
